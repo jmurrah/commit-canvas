@@ -6,15 +6,14 @@ import subprocess
 
 
 def get_github_information() -> tuple[str, list[str]]:
-    # github_username = input("Enter your GitHub username: ")
-    # data = requests.get(f"https://api.github.com/users/{github_username}").json()
+    github_username = input("Enter your GitHub username: ")
+    data = requests.get(f"https://api.github.com/users/{github_username}").json()
 
-    # if data.get("status") == "404":
-    #     raise Exception("Unable to find GitHub username")
+    if data.get("status") == "404":
+        raise Exception("Unable to find GitHub username")
     
-    # year_account_created, current_year = int(data["created_at"][:4]), int(datetime.now().year)
-    # return github_username, [str(year) for year in range(current_year-1, year_account_created-1, -1)]
-    return "jmurrah", ["2023", "2022"]
+    year_account_created, current_year = int(data["created_at"][:4]), int(datetime.now().year)
+    return github_username, [str(year) for year in range(current_year-1, year_account_created-1, -1)]
 
 
 def get_user_input(years: list[str]) -> dict[str]:
@@ -44,7 +43,7 @@ def get_start_date(year: str) -> datetime:
 
 
 def get_image_pixels(img_name: str):
-    img = Image.open(img_name).convert("L")
+    img = Image.open(f"img/{img_name}").convert("L")
     width, height = img.size
 
     if width != 50 and height != 7:
@@ -70,6 +69,7 @@ def create_commit(date: datetime):
 
 def create_commits(pixels: tuple[int, int, int], start_date: datetime):
     subprocess.run(["git", "init"])
+    date = start_date
 
     for brightness in pixels:
         for _ in range(brightness):
@@ -80,8 +80,8 @@ def create_commits(pixels: tuple[int, int, int], start_date: datetime):
 
 
 if __name__ == '__main__':
-    print("Welcome to the commit canvas!\n")
-    print("NOTE: You can only commit to previous years!")
+    print("Welcome to the commit canvas!")
+    print("NOTE: You can only commit to previous years!\n")
 
     github_username, years = get_github_information()
     user_input = get_user_input(years)
@@ -90,6 +90,6 @@ if __name__ == '__main__':
     pixels = get_image_pixels(user_input.get("img_name"))
     create_commits(pixels, start_date)
 
-    print(f"\N{sparkels} Your canvas is completed! Check it out here: https://github.com/{github_username}?tab=overview&from={user_input["year"]}-12-01&to={user_input["year"]}-12-31")
+    print(f"\N{SPARKLES} Your canvas is completed! Check it out here: https://github.com/{github_username}?tab=overview&from={user_input['year']}-12-01&to={user_input['year']}-12-31")
 
     
