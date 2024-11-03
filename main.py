@@ -26,7 +26,6 @@ def get_user_input(years: list[str]) -> dict[str]:
         inquirer.Text('img_name', message="Enter the name of your image ('sketch.jpg')"),
     ]
     answers = inquirer.prompt(questions)
-    print(answers)
     return answers
 
 
@@ -42,7 +41,7 @@ def get_start_date(year: str) -> datetime:
     return date
 
 
-def get_image_pixels(img_name: str):
+def get_image_pixels(img_name: str) -> list[int]:
     img = Image.open(f"img/{img_name}").convert("L")
     width, height = img.size
 
