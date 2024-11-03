@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "commit-canvas"
+version = "0.1.0"
+description = ""
+authors = ["jmurrah <jacobhmurrah@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+inquirer = "^3.4.0"
+requests = "^2.32.3"
+pillow = "^11.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
